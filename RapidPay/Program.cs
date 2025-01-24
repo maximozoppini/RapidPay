@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using RapidPay.Application.Behaviour;
 using RapidPay.Application.Features.CardFeatures.Commands.CreateCard;
+using RapidPay.Application.Features.UserFeatures.Commands.Login;
 using RapidPay.Application.Mapper;
 using RapidPay.Application.Repository;
 using RapidPay.Application.Repository.Common;
@@ -43,12 +43,10 @@ builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 // Register FluentValidation validators
-builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssembly(typeof(CreateCardCommandValidator).Assembly);
-//builder.Services.AddValidatorsFromAssemblyContaining<CreateCardCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -112,7 +110,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -26,9 +26,9 @@ namespace RapidPay.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser([FromBody] UserDto userDto)
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand registerUserCommand)
         {
-            var result = await _mediator.Send(new RegisterUserCommand(userDto));
+            var result = await _mediator.Send(registerUserCommand);
             return StatusCode(result.Success ? 201 : 400, result);
         }
 
@@ -36,9 +36,9 @@ namespace RapidPay.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand)
         {
-            var result = await _mediator.Send(new LoginCommand(loginDto));
+            var result = await _mediator.Send(loginCommand);
 
             if (!result.Success)
                 return Unauthorized(result);

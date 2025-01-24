@@ -16,7 +16,6 @@ namespace RapidPay.Application.Mapper
             CreateMap<Card, CardDto>();
             CreateMap<Transaction, TransactionDto>();
             CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<CreateCardDto, Card>();
         }
     }
 }

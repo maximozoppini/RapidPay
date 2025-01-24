@@ -20,25 +20,16 @@ namespace RapidPay.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user,admin")]
         [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateCard([FromBody] CreateCardDto dto)
+        public async Task<IActionResult> CreateCard([FromBody] CreateCardCommand createCardCommand)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Invalid card attributes");
-
-            var result = await _mediator.Send(new CreateCardCommand
-            {
-                CardNumber = dto.CardNumber,
-                ValidationCode = dto.ValidationCode,
-                ExpirationDate = dto.ExpirationDate,
-                UserId = dto.UserId
-            });
+            var result = await _mediator.Send(createCardCommand);
             return StatusCode(result.Success ? 201 : 400, result);
         }
 
@@ -49,18 +40,9 @@ namespace RapidPay.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentDto dto)
+        public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentCommand createPaymentCommand)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid payment attributes");
-            }
-
-            var result = await _mediator.Send(new CreatePaymentCommand
-            {
-                CardNumber = dto.CardNumber,
-                Amount = dto.Amount
-            });
+            var result = await _mediator.Send(createPaymentCommand);
             return StatusCode(result.Success ? 201 : 400, result);
         }
 

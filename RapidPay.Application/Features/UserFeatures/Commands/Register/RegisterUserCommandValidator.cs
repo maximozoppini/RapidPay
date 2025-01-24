@@ -21,7 +21,8 @@ namespace RapidPay.Application.Features.UserFeatures.Commands.Register
 
             RuleFor(x => x.UserDto.Role)
                 .NotEmpty().WithMessage("Role is required.")
-                .MaximumLength(20).WithMessage("Role must be less than 20 characters.");
+                .MaximumLength(20).WithMessage("Role must be less than 20 characters.")
+                .Must(x => new[] { "admin", "user" }.Contains(x)).WithMessage("values for role must be either admin or user");
         }
     }
 }
