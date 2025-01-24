@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35514.174 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidPay", "RapidPay\RapidPay.csproj", "{4E6E2EF4-2BC6-40D2-84F0-221CBD20CAA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A9F64B82-2105-4D5C-B031-E5ABD515F709}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidPay.Domain", "RapidPay.Entities\RapidPay.Domain.csproj", "{0B663087-D50B-4BD7-93C6-349CD801383F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{8164D087-B7E8-4448-A47F-0C876A44277A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidPay.Persistance", "RapidPay.Persistance\RapidPay.Persistance.csproj", "{191502DC-1960-4A7B-AB7A-618AC7319EB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{79024810-D04D-4C93-B5F0-5D4332CBB506}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidPay.Application", "RapidPay.Application\RapidPay.Application.csproj", "{2E81574B-FF53-4779-9601-317FBCA40F14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{4E295AD5-2186-4F48-987B-C04D1DE19586}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E6E2EF4-2BC6-40D2-84F0-221CBD20CAA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E6E2EF4-2BC6-40D2-84F0-221CBD20CAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E6E2EF4-2BC6-40D2-84F0-221CBD20CAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E6E2EF4-2BC6-40D2-84F0-221CBD20CAA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B663087-D50B-4BD7-93C6-349CD801383F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B663087-D50B-4BD7-93C6-349CD801383F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B663087-D50B-4BD7-93C6-349CD801383F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B663087-D50B-4BD7-93C6-349CD801383F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{191502DC-1960-4A7B-AB7A-618AC7319EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{191502DC-1960-4A7B-AB7A-618AC7319EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{191502DC-1960-4A7B-AB7A-618AC7319EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{191502DC-1960-4A7B-AB7A-618AC7319EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E81574B-FF53-4779-9601-317FBCA40F14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E81574B-FF53-4779-9601-317FBCA40F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E81574B-FF53-4779-9601-317FBCA40F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E81574B-FF53-4779-9601-317FBCA40F14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4E6E2EF4-2BC6-40D2-84F0-221CBD20CAA5} = {4E295AD5-2186-4F48-987B-C04D1DE19586}
+		{0B663087-D50B-4BD7-93C6-349CD801383F} = {A9F64B82-2105-4D5C-B031-E5ABD515F709}
+		{191502DC-1960-4A7B-AB7A-618AC7319EB4} = {8164D087-B7E8-4448-A47F-0C876A44277A}
+		{2E81574B-FF53-4779-9601-317FBCA40F14} = {79024810-D04D-4C93-B5F0-5D4332CBB506}
+	EndGlobalSection
+EndGlobal
