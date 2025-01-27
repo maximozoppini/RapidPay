@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace RapidPay.Application.Features.UserFeatures.Commands.Register
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, BaseResult<UserDto>>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, BaseResult<RegisterUserResponseDto>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -25,18 +25,18 @@ namespace RapidPay.Application.Features.UserFeatures.Commands.Register
             _mapper = mapper;
         }
 
-        public async Task<BaseResult<UserDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResult<RegisterUserResponseDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var userExists = await _userRepository.GetByUsernameAsync(request.UserDto.Username);
                 if (userExists != null)
                 {
-                    return new BaseResult<UserDto>
+                    return new BaseResult<RegisterUserResponseDto>
                     {
                         Success = false,
                         Message = "User already exist.",
-                        Data = request.UserDto
+                        Data = null
                     };
                 }
 
@@ -45,10 +45,9 @@ namespace RapidPay.Application.Features.UserFeatures.Commands.Register
 
                 await _userRepository.AddAsync(user);
 
-                var userDto = _mapper.Map<UserDto>(user);
-                userDto.Password = request.UserDto.Password;
-
-                return new BaseResult<UserDto>
+                var userDto = _mapper.Map<RegisterUserResponseDto>(user);
+                
+                return new BaseResult<RegisterUserResponseDto>
                 {
                     Success = true,
                     Message = "User registered successfully.",
@@ -57,7 +56,7 @@ namespace RapidPay.Application.Features.UserFeatures.Commands.Register
             }
             catch (Exception ex)
             {
-                return new BaseResult<UserDto>
+                return new BaseResult<RegisterUserResponseDto>
                 {
                     Success = false,
                     Message = "Failed to register user.",

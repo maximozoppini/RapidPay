@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RapidPay.Application.Features.UserFeatures.Commands.Register
 {
-    public class RegisterUserCommand : IRequest<BaseResult<UserDto>>
+    public class RegisterUserCommand : IRequest<BaseResult<RegisterUserResponseDto>>
     {
         public UserDto UserDto { get; set; }
 
