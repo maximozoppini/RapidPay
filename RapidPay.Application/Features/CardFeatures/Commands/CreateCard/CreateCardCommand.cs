@@ -15,5 +15,6 @@ namespace RapidPay.Application.Features.CardFeatures.Commands.CreateCard
         public string ValidationCode { get; set; }
         public DateTime ExpirationDate { get; set; }
         public Guid UserId { get; set; }
+        public decimal? CreditLimit { get; set; }
     }
 }

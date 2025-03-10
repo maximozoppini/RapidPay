@@ -14,6 +14,9 @@ namespace RapidPay.Entities.Context
         public DbSet<Card> Cards { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<AuthorizationLog> AuthorizationsLogs { get; set; }
+        public DbSet<PaymentFee> PaymentFees { get; set; }
+        public DbSet<CardChangeLog> CardChangeLogs { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

@@ -15,12 +15,15 @@ namespace RapidPay.Application.Features.CardFeatures.Commands.CreateCard
     public class CreateCardCommandHandler : IRequestHandler<CreateCardCommand, BaseResult<CardDto>>
     {
         private readonly ICardRepository _repository;
+        private readonly IEncryptionService _encryptionService;
         private readonly IMapper _mapper;
+        private static readonly Random _random = new Random();
 
-        public CreateCardCommandHandler(ICardRepository repository, IMapper mapper)
+        public CreateCardCommandHandler(ICardRepository repository, IMapper mapper, IEncryptionService encryptionService)
         {
             _repository = repository;
             _mapper = mapper;
+            _encryptionService = encryptionService;
         }
 
         public async Task<BaseResult<CardDto>> Handle(CreateCardCommand request, CancellationToken cancellationToken)
@@ -29,15 +32,20 @@ namespace RapidPay.Application.Features.CardFeatures.Commands.CreateCard
             {
                 var card = new Card
                 {
-                    CardNumber = request.CardNumber,
+                    CardNumber = _encryptionService.Encrypt(request.CardNumber),
                     ValidationCode = request.ValidationCode,
                     ExpirationDate = request.ExpirationDate,
-                    UserId = request.UserId
+                    CreditLimit = request.CreditLimit,
+                    UserId = request.UserId,
+                    Balance = (decimal)_random.NextDouble() * (10000 - 100) + 100,
+                    IsActive = true,
+                    IsAuthorized = false
                 };
 
                 await _repository.AddAsync(card);
 
                 var cardDto = _mapper.Map<CardDto>(card);
+                cardDto.CardNumber = request.CardNumber;
                 return new BaseResult<CardDto>
                 {
                     Success = true,
@@ -55,5 +63,6 @@ namespace RapidPay.Application.Features.CardFeatures.Commands.CreateCard
                 };
             }
         }
+
     }
 }

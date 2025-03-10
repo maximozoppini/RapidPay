@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace RapidPay.Application.Dtos
 {
-    public class CardDto
+    public class GetCardBalanceDto
     {
-        public Guid Id { get; set; }
-        public string CardNumber { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public string ValidationCode { get; set; }
-        public Guid UserId { get; set; }
         public decimal Balance { get; set; }
         public decimal? CreditLimit { get; set; }
-
     }
 }

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RapidPay.Application.Dtos;
+using RapidPay.Application.Features.CardFeatures.Commands.AuthorizeCard;
 using RapidPay.Application.Features.CardFeatures.Commands.CreateCard;
 using RapidPay.Application.Features.CardFeatures.Commands.CreatePayment;
+using RapidPay.Application.Features.CardFeatures.Commands.UpdateCardDetails;
 using RapidPay.Application.Features.CardFeatures.Querys;
 
 namespace RapidPay.Controllers
@@ -34,6 +36,19 @@ namespace RapidPay.Controllers
         }
 
         [Authorize(Roles = "user,admin")]
+        [HttpPost("authorize")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AuthorizeCard([FromBody] AuthorizeCardCommand authorizeCardCommand)
+        {
+            var result = await _mediator.Send(authorizeCardCommand);
+            return StatusCode(result.Success ? 201 : 400, result);
+        }
+
+        [Authorize(Roles = "user,admin")]
         [HttpPost("pay")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,6 +58,19 @@ namespace RapidPay.Controllers
         public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentCommand createPaymentCommand)
         {
             var result = await _mediator.Send(createPaymentCommand);
+            return StatusCode(result.Success ? 201 : 400, result);
+        }
+
+        [Authorize(Roles = "user,admin")]
+        [HttpPut("update")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateCard([FromBody] UpdateCardDetailsCommand  updateCardDetailsCommand)
+        {
+            var result = await _mediator.Send(updateCardDetailsCommand);
             return StatusCode(result.Success ? 201 : 400, result);
         }
 

@@ -13,7 +13,7 @@ namespace RapidPay.Application.Features.CardFeatures.Querys
         {
             RuleFor(x => x.CardNumber)
                 .NotEmpty().WithMessage("Card number is required.")
-                .Length(16).WithMessage("Card number must be 16 characters long.");
+                .Length(15).WithMessage("Card number must be 15 characters long.");
         }
     }
 }

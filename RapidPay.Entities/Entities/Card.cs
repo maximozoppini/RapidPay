@@ -20,7 +20,15 @@ namespace RapidPay.Domain.Entities
         [Required]
         public DateTime ExpirationDate { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? CreditLimit { get; set; }
+
+        public bool IsActive { get; set; }
+        public bool IsAuthorized { get; set; }
+
         public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<CardChangeLog> CardChangeLogs { get; set; }
+        public ICollection<AuthorizationLog> Authorizations { get; set; }
 
         [ForeignKey("User")]
         public Guid UserId { get; set; }

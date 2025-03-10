@@ -3,22 +3,31 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog.Web;
+using RapidPay.Application.Common;
 using RapidPay.Application.Features.CardFeatures.Commands.CreateCard;
 using RapidPay.Application.Features.UserFeatures.Commands.Login;
 using RapidPay.Application.Mapper;
 using RapidPay.Application.Repository;
 using RapidPay.Application.Repository.Common;
+using RapidPay.Application.Utils;
 using RapidPay.Entities.Context;
 using RapidPay.Filters;
 using RapidPay.Persistance.Repository;
 using RapidPay.Persistance.Repository.Common;
+using RapidPay.Settings;
+using System.Net.Http.Headers;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+builder.Logging.ClearProviders();
+builder.Host.UseNLog(); // Loads NLog configuration from nlog.config by default
 
 
 builder.Services.AddDbContext<AppDbContext>(option =>
@@ -43,6 +52,29 @@ builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IAuthorizationLogRepository, AuthorizationLogRepository>();
+builder.Services.AddScoped<IPaymentFeeRepository, PaymentFeeRepository>();
+builder.Services.AddScoped<ICardChangeLogRepository, CardChangeLogRepository>();
+
+builder.Services.AddSingleton<IUniversalFeesExchange, UniversalFeesExchange>();
+builder.Services.AddHostedService(sp => (UniversalFeesExchange)sp.GetRequiredService<IUniversalFeesExchange>());
+
+
+builder.Services.Configure<EncryptionSettings>(builder.Configuration.GetSection("EncryptionSettings"));
+builder.Services.AddSingleton<IEncryptionService>(sp =>
+{
+    var encryptionSettings = sp.GetRequiredService<IOptions<EncryptionSettings>>().Value;
+    return new EncryptionService(encryptionSettings.Key);
+});
+
+builder.Services.AddHttpClient("MyApi", client =>
+{
+    client.BaseAddress = new Uri("https://api.example.com");
+    client.DefaultRequestHeaders.Accept.Clear();
+    client.DefaultRequestHeaders.Accept.Add(
+        new MediaTypeWithQualityHeaderValue("application/json"));
+    client.DefaultRequestHeaders.Add("User-Agent", "MyApp/1.0");
+});
 
 // Register FluentValidation validators
 builder.Services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();

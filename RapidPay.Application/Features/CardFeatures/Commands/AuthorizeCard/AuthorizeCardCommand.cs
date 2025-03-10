@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RapidPay.Application.Features.CardFeatures.Querys
+namespace RapidPay.Application.Features.CardFeatures.Commands.AuthorizeCard
 {
-    public class GetCardBalanceQuery : IRequest<BaseResult<GetCardBalanceDto>>
+    public class AuthorizeCardCommand : IRequest<BaseResult<AuthorizeCardResultDto>>
     {
         public string CardNumber { get; set; }
+        public decimal PaymentAmount { get; set; }
     }
 }
